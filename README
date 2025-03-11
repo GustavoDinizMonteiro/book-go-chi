@@ -1,0 +1,71 @@
+# 📚 API de Livros (Go + Chi + Clean Architecture)
+
+Este projeto é uma API para gerenciamento de livros, seguindo a **Clean Architecture** e o padrão de estrutura utilizado na empresa.
+
+---
+
+## 📁 Estrutura do Projeto
+
+```
+app/
+├── config                      # Configuração e inicialização da aplicação
+│   └── bootstrap               # Arquivos de bootstrap
+├── domain                      # Camada de Domínio
+│   ├── dto                     # Data Transfer Objects (entrada/saída da API)
+│   │   └── book.go             # DTO específico para livros
+│   ├── entity                  # Modelos que representam as entidades do domínio
+│   │   └── book.go             # Estrutura Book com regras de negócio
+│   ├── erring                  # Tratamento de erros do domínio
+│   ├── types                   # Tipos compartilhados do domínio
+│   ├── usecase                 # Casos de uso da aplicação
+│   │   ├── book.go             # Lógica de negócio para livros
+│   │   └── types               # Tipos específicos dos usecases
+│   └── vo                      # Value Objects (objetos imutáveis do domínio)
+├── gateway                     # Comunicação com o mundo externo
+│   ├── client                  # Comunicação com serviços externos
+│   ├── cronjob                 # Definição de tarefas agendadas
+│   ├── http                    # Camada HTTP
+│   │   ├── handler             # Implementação das rotas e handlers
+│   │   │   ├── actions         # Ações específicas
+│   │   │   └── v1              # Versão 1 da API
+│   │   │       └── book.go     # Handler para operações com livros
+│   │   ├── middleware          # Middlewares da API
+│   │   ├── resource            # Recursos auxiliares (ex: OpenAPI)
+│   │   │   └── openapi         # Documentação OpenAPI
+│   │   └── rest                # Definição de requests/responses
+│   │       ├── request         # Estruturas de requisição
+│   │       └── response        # Estruturas de resposta
+│   ├── mock                    # Implementações falsas para testes
+│   ├── postgres                # Implementação do repositório no banco PostgreSQL
+│   │   ├── migrations          # Scripts de migração do banco
+│   │   └── book_repository.go  # Repositório de livros
+│   └── redis                   # Implementação de cache usando Redis
+└── library                     # Utilitários reutilizáveis
+cmd/                            # Pontos de entrada da aplicação
+├── api                         # Inicialização da API
+│   └── main.go                 # Arquivo principal para rodar a API
+└── job                         # Tarefas assíncronas
+_tools/                         # Scripts e ferramentas auxiliares
+```
+
+---
+
+## 🚀 **Como Rodar o Projeto**
+
+1. **Criar a estrutura do projeto (se necessário)**:
+   ```bash
+   ./setup.sh
+   ```
+
+2. **Rodar a API**:
+   ```bash
+   go run cmd/api/main.go
+   ```
+
+3. **Testar chamadas da API**:
+   ```bash
+   curl http://localhost:8080/v1/books
+   ```
+
+Agora você tem um guia rápido para lembrar da estrutura e propósito de cada parte do projeto. 🚀
+
