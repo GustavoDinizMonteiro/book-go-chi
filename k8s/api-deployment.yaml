@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: books-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: books-api
+  template:
+    metadata:
+      labels:
+        app: books-api
+    spec:
+      containers:
+        - name: books-api
+          image: books-api
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
+          env:
+            - name: DB_URL
+              value: "postgres://admin:admin123@192.168.49.2:30000/books?sslmode=disable"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: books-api-service
+spec:
+  selector:
+    app: books-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: LoadBalancer
+
+
