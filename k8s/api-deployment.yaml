@@ -20,7 +20,7 @@ spec:
             - containerPort: 5000
           env:
             - name: DB_URL
-              value: "postgres://admin:admin123@192.168.49.2:30000/books?sslmode=disable"
+              value: "postgres://admin:admin123@postgres:5432/books?sslmode=disable"
 
 ---
 
