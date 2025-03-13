@@ -1,0 +1,12 @@
+image:
+  repository: gmonteiro/books-api
+  tag: 0.0.1
+  pullPolicy: Always
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 5000
+  dbUrl: "postgres://admin:admin123@postgres:5432/books?sslmode=disable"
+
+replicaCount: 1

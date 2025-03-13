@@ -1,0 +1,5 @@
+apiVersion: v2
+name: book-go-chi
+description: A Helm chart for book-go-chi API
+version: 0.0.1
+appVersion: "latest"
