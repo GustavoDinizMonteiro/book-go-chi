@@ -17,11 +17,20 @@ spec:
         image: postgres:latest
         env:
         - name: POSTGRES_USER
-          value: "admin"
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials-kubectl
+              key: POSTGRES_USER
         - name: POSTGRES_PASSWORD
-          value: "admin123"
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials-kubectl
+              key: POSTGRES_PASSWORD
         - name: POSTGRES_DB
-          value: "books"
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials-kubectl
+              key: POSTGRES_DB
         ports:
         - containerPort: 5432
 

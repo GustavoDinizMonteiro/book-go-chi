@@ -20,7 +20,10 @@ spec:
             - containerPort: 5000
           env:
             - name: DB_URL
-              value: "postgres://admin:admin123@postgres:5432/books?sslmode=disable"
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials-kubectl
+                  key: DB_URL
 
 ---
 

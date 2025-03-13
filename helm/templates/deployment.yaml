@@ -20,4 +20,7 @@ spec:
             - containerPort: 5000
           env:
             - name: DB_URL
-              value: {{ .Values.service.dbUrl }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.databaseSecret }}
+                  key: {{ .Values.db.dbUrl }}
