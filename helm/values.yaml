@@ -7,7 +7,6 @@ service:
   type: LoadBalancer
   port: 80
   targetPort: 5000
-  dbUrl: "postgres://admin:admin123@books-api-by-helm-postgres:5432/books?sslmode=disable"
 
 replicaCount: 1
 

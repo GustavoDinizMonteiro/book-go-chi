@@ -4,6 +4,13 @@ metadata:
   name: {{ .Release.Name }}-postgres
 spec:
   replicas: 1
+  resources:
+    requests:
+      memory: "164Mi"
+      cpu: "100m"
+    limits:
+      memory: "328Mi"
+      cpu: "300m"
   selector:
     matchLabels:
       app: {{ .Release.Name }}-postgres
