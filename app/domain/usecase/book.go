@@ -3,12 +3,14 @@ package usecase
 import (
 	"books/app/domain/dto"
 	"books/app/domain/entity"
+	"books/app/library/telemetry"
+	"context"
 
 	"github.com/jinzhu/copier"
 )
 
 type BookRepository interface {
-	CreateBook(book *entity.Book) (string, error)
+	CreateBook(ctx context.Context, book *entity.Book) (string, error)
 }
 
 type BookUseCase struct {
@@ -21,8 +23,11 @@ func NewBookUseCase(repository BookRepository) BookUseCase {
 	}
 }
 
-func (uc *BookUseCase) CreateBook(input dto.CreateBookRequest) (string, error) {
+func (uc *BookUseCase) CreateBook(ctx context.Context, input dto.CreateBookRequest) (string, error) {
+	spanCtx, span := telemetry.Tracer.Start(ctx, "/usecase/create-book")
+	defer span.End() 
+
 	var bookEntity entity.Book
 	copier.Copy(&bookEntity, &input)
-	return uc.repository.CreateBook(&bookEntity)
+	return uc.repository.CreateBook(spanCtx, &bookEntity)
 }

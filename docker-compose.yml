@@ -13,6 +13,28 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
       - ./app/gateway/postgres/migrations:/migrations
+  jaeger:
+    image: jaegertracing/all-in-one:1.56
+    container_name: jaeger
+    ports:
+      - "5775:5775"   # UDP port for the agent
+      - "6831:6831/udp"  # UDP port for the agent
+      - "6832:6832/udp"  # Another UDP port for the agent
+      - "5778:5778"   # HTTP port for the agent
+      - "16686:16686" # Port for Jaeger UI
+      - "14250:14250" # Port for GRPC
+      - "14267:14267" # Port for Collector
+      - "14268:14268" # Port for Collector
+      - "4317:4317"   # OTLP gRPC endpoint
+      - "4318:4318"   # OTLP HTTP endpoint
+    environment:
+      - COLLECTOR_ZIPKIN_HTTP_PORT=9411  # Expose Zipkin API for compatibility
+    networks:
+      - jaeger-network
 
 volumes:
   pg_data:
+
+networks:
+  jaeger-network:
+    driver: bridge
