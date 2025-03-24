@@ -1,6 +1,6 @@
 MIGRATIONS_DIR=./app/gateway/postgres/migrations
 
-.PHONY: migrate up down api load
+.PHONY: migrate up down api load mocks test
 
 include .env
 export $(shell sed 's/=.*//' .env)
@@ -22,6 +22,16 @@ down:
 
 load:
 	@k6 run --vus 100 --duration 15s tests/loadtests/load-test.js
+
+mocks:
+	@go generate ./...
+
+test:
+	@go test ./...
+
+coverage:
+	@go test -coverprofile=coverage.out ./...
+	@go tool cover -html=coverage.out
 
 api:
 	@go run ./cmd/api/main.go

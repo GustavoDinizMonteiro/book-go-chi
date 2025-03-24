@@ -18,6 +18,7 @@ type BookUseCase struct {
 	repository BookRepository
 }
 
+//go:generate moq -rm -out book_usecase_mock.gen.go . BookRepository
 func NewBookUseCase(repository BookRepository) BookUseCase {
 	return BookUseCase{
 		repository: repository,
