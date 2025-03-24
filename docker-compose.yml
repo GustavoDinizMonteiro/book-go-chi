@@ -13,8 +13,9 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
       - ./app/gateway/postgres/migrations:/migrations
+
   jaeger:
-    image: jaegertracing/all-in-one:1.56
+    image: jaegertracing/all-in-one:latest
     container_name: jaeger
     ports:
       - "5775:5775"   # UDP port for the agent
@@ -32,9 +33,27 @@ services:
     networks:
       - jaeger-network
 
+  grafana:
+    image: grafana/grafana:11.5.2
+    container_name: grafana
+    ports:
+      - "3000:3000" 
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin  
+    depends_on:
+      - jaeger
+    networks:
+      - monitoring
+      - jaeger-network
+    volumes:
+      - grafana-data:/var/lib/grafana 
+
 volumes:
   pg_data:
+  grafana-data:
 
 networks:
   jaeger-network:
+    driver: bridge
+  monitoring:
     driver: bridge

@@ -36,3 +36,25 @@ func (r *BookRepository) CreateBook(ctx context.Context, book *entity.Book) (str
 
 	return id, nil
 }
+
+func (r *BookRepository) List(ctx context.Context) ([]entity.Book, error)  {
+	_, span := telemetry.Tracer.Start(ctx, "/repository/list-books")
+	defer span.End()
+
+	rows, err := r.db.Query("SELECT id, title, author, isbn FROM books")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var books []entity.Book
+	for rows.Next() {
+		var book entity.Book
+		if err := rows.Scan(&book.ID, &book.Title, &book.Author, &book.ISBN); err != nil {
+			return nil, err
+		}
+		books = append(books, book)
+	}
+
+	return books, nil
+}
